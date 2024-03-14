@@ -15,7 +15,11 @@ function Para(el)
         if not file_exists(path) then
             path = path .. ".md"
         end
-        return pandoc.CodeBlock(path, "include")
+        local codeblock = pandoc.CodeBlock(path)
+        codeblock.classes[1] = "include"
+        return codeblock
     end
     return el
 end
+
+return pandoc.List({ { Para = Para } }):__concat(require "lua-filters.include-files.include-files")
